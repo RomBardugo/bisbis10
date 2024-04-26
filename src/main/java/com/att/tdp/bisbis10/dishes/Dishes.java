@@ -1,5 +1,7 @@
 package com.att.tdp.bisbis10.dishes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +18,9 @@ public class Dishes {
             strategy = GenerationType.SEQUENCE,
             generator = "dish_sequence"
     )
+    @JsonProperty("id")
     private Long dishId;
+    @JsonIgnore
     private Long restaurantId;
     private String name;
     private String description;

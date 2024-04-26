@@ -1,6 +1,8 @@
 package com.att.tdp.bisbis10.dishes;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +25,11 @@ public class DishesController {
     }
 
     @PostMapping
-    public void addNewDish(@PathVariable Long restaurantId,
-                           @RequestBody (required = true) Dishes dishes){
+    public ResponseEntity<String> addNewDish(@PathVariable Long restaurantId,
+                                             @RequestBody (required = true) Dishes dishes){
         dishes.setRestaurantId(restaurantId);
         dishesService.addNewDish(dishes);
+        return ResponseEntity.status(HttpStatus.CREATED).body("New dish created successfully");
     }
 
     @PutMapping(path = "{dishId}")
@@ -39,7 +42,8 @@ public class DishesController {
     }
 
     @DeleteMapping("{dishId}")
-    public void deleteDish(@PathVariable Long restaurantId, @PathVariable Long dishId){
+    public ResponseEntity<Void> deleteDish(@PathVariable Long restaurantId, @PathVariable Long dishId){
         dishesService.deleteDish(restaurantId, dishId);
+        return ResponseEntity.noContent().build();
     }
 }

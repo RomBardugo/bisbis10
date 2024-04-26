@@ -2,19 +2,11 @@ package com.att.tdp.bisbis10.restaurant;
 
 import com.att.tdp.bisbis10.dishes.Dishes;
 import com.att.tdp.bisbis10.dishes.DishesService;
-import com.att.tdp.bisbis10.rating.Rating;
-import com.att.tdp.bisbis10.rating.RatingController;
-import com.att.tdp.bisbis10.rating.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "restaurants")
@@ -44,7 +36,7 @@ public class RestaurantController {
     public RestaurantDetails getRestaurantById(@PathVariable("restaurantId") Long restaurantId){
         Restaurant restaurant =  restaurantService.getRestaurantById(restaurantId);
         List<Dishes> dishes = dishesService.getDishesByRestaurantId(restaurantId);
-        return new RestaurantDetails(restaurant, dishes);
+        return new RestaurantDetails(restaurant.getId(), restaurant.getName(), restaurant.getRating(), restaurant.getIsKosher(), restaurant.getCuisines(), dishes);
     }
 
     @PostMapping
