@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 @Entity
 @Table
 public class Rating {
-    //TODO: fix that restaurantId will be foreign key - add avg
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingId;

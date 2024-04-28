@@ -1,6 +1,5 @@
 package com.att.tdp.bisbis10.order;
 
-import com.att.tdp.bisbis10.dishes.Dish;
 import com.att.tdp.bisbis10.dishes.DishesService;
 import com.att.tdp.bisbis10.orderItems.OrderItem;
 import com.att.tdp.bisbis10.restaurant.Restaurant;
@@ -30,16 +29,6 @@ public class OrderService {
     }
 
     public void addNewOrder(Order order) {
-//        if (!restaurantService.restaurantExists(order.getRestaurantId())){
-//            throw new IllegalStateException("Restaurant dose not exists");
-//        }
-//        List<Dish> dishes = dishesService.getDishesByRestaurantId(order.getRestaurant().getId());
-//        List<Long> dishIds = dishes.stream().map(Dish::getDishId).toList();
-//        for (OrderItem orderItem : order.getOrderItems()){
-//            if (!dishIds.contains(orderItem.getDishId())){
-//                throw new IllegalStateException("Restaurant dose not have dish number " + orderItem.getDishId());
-//            }
-//        }
         Restaurant restaurant = restaurantService.getRestaurantById(order.getTempRestaurantId());
         order.setRestaurant(restaurant);
         for (OrderItem orderItem: order.getOrderItems()){

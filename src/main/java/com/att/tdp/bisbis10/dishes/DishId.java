@@ -3,7 +3,6 @@ package com.att.tdp.bisbis10.dishes;
 import com.att.tdp.bisbis10.restaurant.Restaurant;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class DishId implements Serializable {
     private Restaurant restaurant;

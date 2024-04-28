@@ -2,13 +2,12 @@ package com.att.tdp.bisbis10.orderItems;
 
 
 import com.att.tdp.bisbis10.dishes.Dish;
-import com.att.tdp.bisbis10.dishes.DishId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 @Table
-public class OrderItem {//TODO: forign key dishId
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 

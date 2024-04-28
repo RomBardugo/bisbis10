@@ -4,7 +4,6 @@ import com.att.tdp.bisbis10.orderItems.OrderItem;
 import com.att.tdp.bisbis10.restaurant.Restaurant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

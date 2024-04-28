@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Entity
 @Table
 @IdClass(DishId.class)
-public class Dish { //TODO: forign key restaurant
+public class Dish {
 
     @Id
     @SequenceGenerator(

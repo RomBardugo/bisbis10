@@ -1,11 +1,9 @@
 package com.att.tdp.bisbis10.restaurant;
 
 import com.att.tdp.bisbis10.rating.Rating;
-import com.att.tdp.bisbis10.rating.RatingRepository;
 import com.att.tdp.bisbis10.rating.RatingService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,10 +28,6 @@ public class RestaurantService {
         return restaurantList;
     }
 
-    public Boolean restaurantExists(Long restaurantId){
-        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
-        return restaurantOptional.isPresent();
-    }
     public void addNewRestaurant(Restaurant restaurant) {
         restaurantRepository.save(restaurant);
     }
@@ -66,7 +60,7 @@ public class RestaurantService {
 
     public List<Restaurant> getRestaurantsByCuisine(String cuisine) {
         Optional<List<Restaurant>> restaurants = restaurantRepository.findRestaurantsByCuisines(cuisine);
-        if (restaurants.isEmpty()){
+        if (restaurants.get().isEmpty()){
             throw new IllegalStateException("There is no restaurants with these cuisine");
         }
         return this.getRestaurantRating(restaurants.get());
