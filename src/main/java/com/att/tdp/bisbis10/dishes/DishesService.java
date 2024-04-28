@@ -1,10 +1,10 @@
 package com.att.tdp.bisbis10.dishes;
 
-import com.att.tdp.bisbis10.restaurant.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -17,37 +17,44 @@ public class DishesService {
         this.dishesRepository = dishesRepository;
     }
 
-    public List<Dishes> getDishesByRestaurantId(Long restaurantId) {
-        Optional<List<Dishes>> optionalDishes =  dishesRepository.findDishesByRestaurantId(restaurantId);
-        if (optionalDishes.isEmpty()){
+    public List<Dish> getDishesByRestaurantId(Long restaurantId) {
+        Optional<List<Dish>> dishes = dishesRepository.findDishesByRestaurantId(restaurantId);
+        if (dishes.isEmpty()){
             throw new IllegalStateException("Restaurant dose not have any dishes");
         }
-        return optionalDishes.get();
+        return dishesRepository.findDishesByRestaurantId(restaurantId).get();
     }
 
-    public void addNewDish(Dishes dishes) {
+    public void addNewDish(Dish dishes) {
         dishesRepository.save(dishes);
     }
-
-    public void updateDishDescriptionOrPrice(Long restaurantId, Long dishId, String description, Integer price) {
-        Optional<Dishes> dishesOptional = dishesRepository.findDishesByRestaurantIdAndDishId(restaurantId, dishId);
+    public Dish getDishByRestaurantIdAndDishId(Long restaurantId, Long dishId){
+        Optional<Dish> dishesOptional = dishesRepository.findDishesByRestaurantIdAndDishId(restaurantId, dishId);
         if (dishesOptional.isEmpty()){
             throw new IllegalStateException("Dish dose not exist in this restaurant");
         }
-        Dishes dish = dishesOptional.get();
-        if (description != null){
-            System.out.println("UPDATING DISCRIPTION");
-            dish.setDescription(description);
+        return dishesOptional.get();
+    }
+    public void updateDishDescriptionOrPrice(Long restaurantId, Long dishId, Dish dish) {
+        Optional<Dish> dishesOptional = dishesRepository.findDishesByRestaurantIdAndDishId(restaurantId, dishId);
+        if (dishesOptional.isEmpty()){
+            throw new IllegalStateException("Dish dose not exist in this restaurant");
         }
-        if (price != null){
-            System.out.println("UPDATING PRICE");
-            dish.setPrice(price);
+        Dish originalDish = dishesOptional.get();
+        if (dish.getName() != null & !Objects.equals(originalDish.getName(), dish.getName())){
+            originalDish.setName(dish.getName());
         }
-        dishesRepository.save(dish);
+        if (dish.getDescription() != null & !Objects.equals(originalDish.getDescription(), dish.getDescription())){
+            originalDish.setDescription(dish.getDescription());
+        }
+        if (dish.getPrice() != null & !Objects.equals(originalDish.getPrice(), dish.getPrice())){
+            originalDish.setPrice(dish.getPrice());
+        }
+        dishesRepository.save(originalDish);
     }
 
     public void deleteDish(Long restaurantId, Long dishId) {
-        Optional<Dishes> dish = dishesRepository.findDishesByRestaurantIdAndDishId(restaurantId, dishId);
+        Optional<Dish> dish = dishesRepository.findDishesByRestaurantIdAndDishId(restaurantId, dishId);
         if (dish.isEmpty()){
             throw new IllegalStateException("Dish dose not exist in this restaurant");
         }

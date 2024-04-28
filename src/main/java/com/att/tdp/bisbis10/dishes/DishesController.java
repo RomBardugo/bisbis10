@@ -1,44 +1,45 @@
 package com.att.tdp.bisbis10.dishes;
 
+import com.att.tdp.bisbis10.restaurant.Restaurant;
+import com.att.tdp.bisbis10.restaurant.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("restaurants/{restaurantId}/dishes")
 public class DishesController {
 
     final private DishesService dishesService;
+    final private RestaurantService restaurantService;
 
     @Autowired
-    public DishesController(DishesService dishesService) {
+    public DishesController(DishesService dishesService, RestaurantService restaurantService) {
         this.dishesService = dishesService;
+        this.restaurantService = restaurantService;
     }
 
     @GetMapping
-    public List<Dishes> getDishesByRestaurantId(@PathVariable Long restaurantId){
+    public List<Dish> getDishesByRestaurantId(@PathVariable Long restaurantId){
         return dishesService.getDishesByRestaurantId(restaurantId);
     }
 
     @PostMapping
     public ResponseEntity<String> addNewDish(@PathVariable Long restaurantId,
-                                             @RequestBody (required = true) Dishes dishes){
-        dishes.setRestaurantId(restaurantId);
-        dishesService.addNewDish(dishes);
+                                             @RequestBody (required = true) Dish dish){
+        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+        dish.setRestaurant(restaurant);
+        dishesService.addNewDish(dish);
         return ResponseEntity.status(HttpStatus.CREATED).body("New dish created successfully");
     }
 
     @PutMapping(path = "{dishId}")
     public void updateRestaurantDish(@PathVariable Long restaurantId, @PathVariable Long dishId,
-                                     @RequestParam (required = false) String description,
-                                     @RequestParam (required = false) Integer price){
-        System.out.println("The new price will be " + price + " and the new desc will be " + description);
-        System.out.println("Restid is " + restaurantId + " dish id is " + dishId);
-        dishesService.updateDishDescriptionOrPrice(restaurantId, dishId, description, price);
+                                     @RequestBody Dish dish){
+        dishesService.updateDishDescriptionOrPrice(restaurantId, dishId, dish);
     }
 
     @DeleteMapping("{dishId}")

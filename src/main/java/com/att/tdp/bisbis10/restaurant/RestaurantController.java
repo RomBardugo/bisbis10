@@ -1,6 +1,6 @@
 package com.att.tdp.bisbis10.restaurant;
 
-import com.att.tdp.bisbis10.dishes.Dishes;
+import com.att.tdp.bisbis10.dishes.Dish;
 import com.att.tdp.bisbis10.dishes.DishesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class RestaurantController {
     @GetMapping("/{restaurantId}")
     public RestaurantDetails getRestaurantById(@PathVariable("restaurantId") Long restaurantId){
         Restaurant restaurant =  restaurantService.getRestaurantById(restaurantId);
-        List<Dishes> dishes = dishesService.getDishesByRestaurantId(restaurantId);
+        List<Dish> dishes = dishesService.getDishesByRestaurantId(restaurantId);
         return new RestaurantDetails(restaurant.getId(), restaurant.getName(), restaurant.getRating(), restaurant.getIsKosher(), restaurant.getCuisines(), dishes);
     }
 
@@ -52,7 +52,7 @@ public class RestaurantController {
 
     @PutMapping(path = "{restaurantId}")
     public void updateRestaurant(@PathVariable("restaurantId") Long restaurantId,
-                                @RequestParam(required= true) List<String> cuisines){
-        restaurantService.updateRestaurant(restaurantId, cuisines);
+                                @RequestBody(required= true) Restaurant restaurant){
+        restaurantService.updateRestaurant(restaurantId, restaurant);
     }
 }

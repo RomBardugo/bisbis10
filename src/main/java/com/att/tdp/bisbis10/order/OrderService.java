@@ -1,8 +1,9 @@
 package com.att.tdp.bisbis10.order;
 
-import com.att.tdp.bisbis10.dishes.Dishes;
+import com.att.tdp.bisbis10.dishes.Dish;
 import com.att.tdp.bisbis10.dishes.DishesService;
 import com.att.tdp.bisbis10.orderItems.OrderItem;
+import com.att.tdp.bisbis10.restaurant.Restaurant;
 import com.att.tdp.bisbis10.restaurant.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,15 +30,20 @@ public class OrderService {
     }
 
     public void addNewOrder(Order order) {
-        if (!restaurantService.restaurantExists(order.getRestaurantId())){
-            throw new IllegalStateException("Restaurant dose not exists");
-        }
-        List<Dishes> dishes = dishesService.getDishesByRestaurantId(order.getRestaurantId());
-        List<Long> dishIds = dishes.stream().map(Dishes::getDishId).toList();
-        for (OrderItem orderItem : order.getOrderItems()){
-            if (!dishIds.contains(orderItem.getDishId())){
-                throw new IllegalStateException("Restaurant dose not have dish number " + orderItem.getDishId());
-            }
+//        if (!restaurantService.restaurantExists(order.getRestaurantId())){
+//            throw new IllegalStateException("Restaurant dose not exists");
+//        }
+//        List<Dish> dishes = dishesService.getDishesByRestaurantId(order.getRestaurant().getId());
+//        List<Long> dishIds = dishes.stream().map(Dish::getDishId).toList();
+//        for (OrderItem orderItem : order.getOrderItems()){
+//            if (!dishIds.contains(orderItem.getDishId())){
+//                throw new IllegalStateException("Restaurant dose not have dish number " + orderItem.getDishId());
+//            }
+//        }
+        Restaurant restaurant = restaurantService.getRestaurantById(order.getTempRestaurantId());
+        order.setRestaurant(restaurant);
+        for (OrderItem orderItem: order.getOrderItems()){
+            orderItem.setDish(dishesService.getDishByRestaurantIdAndDishId(order.getRestaurant().getId(), orderItem.getTempDishId()));
         }
         orderRepository.save(order);
     }

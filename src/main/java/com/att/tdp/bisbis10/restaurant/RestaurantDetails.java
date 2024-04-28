@@ -1,11 +1,8 @@
 package com.att.tdp.bisbis10.restaurant;
 
-import com.att.tdp.bisbis10.dishes.Dishes;
+import com.att.tdp.bisbis10.dishes.Dish;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Transient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantDetails {
@@ -17,12 +14,12 @@ public class RestaurantDetails {
 
     private Boolean isKosher;
     private List<String> cuisines;
-    private List<Dishes> dishes;
+    private List<Dish> dishes;
 
     public RestaurantDetails() {
     }
 
-    public RestaurantDetails(Long id, String name, Float rating, Boolean isKosher, List<String> cuisines, List<Dishes> dishes) {
+    public RestaurantDetails(Long id, String name, Float rating, Boolean isKosher, List<String> cuisines, List<Dish> dishes) {
         this.id = id;
         this.name = name;
         this.rating = rating;
@@ -71,11 +68,11 @@ public class RestaurantDetails {
         this.cuisines = cuisines;
     }
 
-    public List<Dishes> getDishes() {
+    public List<Dish> getDishes() {
         return dishes;
     }
 
-    public void setDishes(List<Dishes> dishes) {
+    public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
     }
 }

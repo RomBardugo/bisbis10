@@ -1,10 +1,12 @@
 package com.att.tdp.bisbis10.restaurant;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.att.tdp.bisbis10.dishes.Dish;
+import com.att.tdp.bisbis10.order.Order;
+import com.att.tdp.bisbis10.rating.Rating;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,14 +23,22 @@ public class Restaurant {
             generator = "restaurant_sequence"
     )
     private Long id;
-//    @UniqueConstraint() TODO
+    @Column(unique = true)
     private String name;
     @Transient
-    private Float rating;
+    @OneToOne
+    private Rating rating;
     @JsonProperty("isKosher")
     private Boolean isKosher;
     @ElementCollection
-    private List<String> cuisines = new ArrayList<>();
+    private List<String> cuisines;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fk_restaurant_id", referencedColumnName = "id")
+    private List<Order> orders;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fk_restaurant_id", referencedColumnName = "id")
+    private List<Dish> dishes;
 
 
     public Restaurant(){
@@ -68,12 +78,21 @@ public class Restaurant {
         this.cuisines = cuisines;
     }
 
-    public Float getRating() {
-        return rating;
+    public Float getRating()
+    {
+        return rating != null ? rating.getRating() : null;
     }
 
-    public void setRating(Float rating) {
+    public void setRating(Rating rating) {
         this.rating = rating;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -85,4 +104,6 @@ public class Restaurant {
                 ", cuisines=" + cuisines +
                 '}';
     }
+
+
 }

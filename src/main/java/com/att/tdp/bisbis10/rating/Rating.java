@@ -1,5 +1,7 @@
 package com.att.tdp.bisbis10.rating;
 
+import com.att.tdp.bisbis10.restaurant.Restaurant;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,23 +9,38 @@ import jakarta.persistence.*;
 public class Rating {
     //TODO: fix that restaurantId will be foreign key - add avg
     @Id
-    private Long restaurantId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ratingId;
+    @OneToOne
+    @JoinColumn(name = "fk_restaurant_id")
+    private Restaurant restaurant;
+    @Transient
+    @JsonProperty("restaurantId")
+    private Long tempRestaurantId;
     private Float rating;
 
     public Rating() {
     }
 
-    public Rating(Long restaurantId, Float rating) {
-        this.restaurantId = restaurantId;
+    public Rating(Restaurant restaurant, Float rating) {
+        this.restaurant = restaurant;
         this.rating = rating;
     }
 
-    public Long getRestaurantId() {
-        return restaurantId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
+    public Long getRatingId() {
+        return ratingId;
+    }
+
+    public void setRatingId(Long ratingId) {
+        this.ratingId = ratingId;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public Float getRating() {
@@ -33,4 +50,14 @@ public class Rating {
     public void setRating(Float rating) {
         this.rating = rating;
     }
+
+    public Long getTempRestaurantId() {
+        return tempRestaurantId;
+    }
+
+    public void setTempRestaurantId(Long tempRestaurantId) {
+        this.tempRestaurantId = tempRestaurantId;
+    }
+
 }
+

@@ -1,12 +1,14 @@
 package com.att.tdp.bisbis10.dishes;
 
+import com.att.tdp.bisbis10.restaurant.Restaurant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 @Table
-public class Dishes { //TODO: forign key restaurant
+@IdClass(DishId.class)
+public class Dish { //TODO: forign key restaurant
 
     @Id
     @SequenceGenerator(
@@ -20,25 +22,26 @@ public class Dishes { //TODO: forign key restaurant
     )
     @JsonProperty("id")
     private Long dishId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "fk_restaurant_id")
     @JsonIgnore
-    private Long restaurantId;
+    private Restaurant restaurant;
     private String name;
     private String description;
     private Integer price;
 
-    public Dishes() {
+    public Dish() {
     }
 
-    public Dishes(Long dishId, Long restaurantId, String name, String description, Integer price) {
+    public Dish(Long dishId, String name, String description, Integer price) {
         this.dishId = dishId;
-        this.restaurantId = restaurantId;
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public Dishes(Long restaurantId, String name, String description, Integer price) {
-        this.restaurantId = restaurantId;
+    public Dish(String name, String description, Integer price) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -46,15 +49,6 @@ public class Dishes { //TODO: forign key restaurant
 
     public Long getDishId() {
         return dishId;
-    }
-
-
-    public Long getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
     }
 
     public String getName() {
@@ -81,11 +75,18 @@ public class Dishes { //TODO: forign key restaurant
         this.price = price;
     }
 
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     @Override
     public String toString() {
         return "Dishes{" +
                 "dishId=" + dishId +
-                ", restaurantId=" + restaurantId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
