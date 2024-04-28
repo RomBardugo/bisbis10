@@ -21,6 +21,7 @@ public class Restaurant {
             generator = "restaurant_sequence"
     )
     private Long id;
+//    @UniqueConstraint() TODO
     private String name;
     @Transient
     private Float rating;
@@ -33,13 +34,6 @@ public class Restaurant {
     public Restaurant(){
     }
 
-    public Restaurant(Long id, String name, Boolean isKosher, List<String> cuisines) {
-        this.id = id;
-        this.name = name;
-        this.isKosher = isKosher;
-        this.cuisines = cuisines;
-    }
-
     public Restaurant(String name, Boolean isKosher, List<String> cuisines) {
         this.name = name;
         this.isKosher = isKosher;
@@ -48,10 +42,6 @@ public class Restaurant {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

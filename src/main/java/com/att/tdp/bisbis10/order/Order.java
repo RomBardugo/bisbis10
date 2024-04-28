@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order {//TODO: forign key restaurant
     @Id
     @GeneratedValue(
             strategy = GenerationType.AUTO
@@ -17,7 +17,7 @@ public class Order {
     private UUID orderId;
     private Long restaurantId;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "fk_orderItems_id", referencedColumnName = "orderId")
+    @JoinColumn(name = "fk_order_id", referencedColumnName = "orderId")
     private List<OrderItem> orderItems = new ArrayList<>();
 
 

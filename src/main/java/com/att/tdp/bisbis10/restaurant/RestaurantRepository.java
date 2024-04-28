@@ -1,5 +1,6 @@
 package com.att.tdp.bisbis10.restaurant;
 
+import com.att.tdp.bisbis10.dishes.Dishes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +14,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
 //    @Query("SELECT r FROM Restaurant r WHERE r.name = ?1")
     Optional<Restaurant> findRestaurantByName(String name);
+    Optional<List<Restaurant>> findRestaurantsByCuisines(String cuisine);
 }

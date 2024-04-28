@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
-public class OrderItem {
+public class OrderItem {//TODO: forign key dishId
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 

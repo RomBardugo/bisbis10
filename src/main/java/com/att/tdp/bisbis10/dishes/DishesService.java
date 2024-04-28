@@ -35,7 +35,6 @@ public class DishesService {
             throw new IllegalStateException("Dish dose not exist in this restaurant");
         }
         Dishes dish = dishesOptional.get();
-        System.out.println(dish);
         if (description != null){
             System.out.println("UPDATING DISCRIPTION");
             dish.setDescription(description);

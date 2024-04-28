@@ -58,9 +58,11 @@ public class RestaurantService {
     }
 
     public List<Restaurant> getRestaurantsByCuisine(String cuisine) {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        restaurants = restaurants.stream().filter(restaurant -> restaurant.getCuisines().contains(cuisine)).collect(Collectors.toList());
-        return this.getRestaurantRating(restaurants);
+        Optional<List<Restaurant>> restaurants = restaurantRepository.findRestaurantsByCuisines(cuisine);
+        if (restaurants.isEmpty()){
+            new IllegalStateException("There is no restaurants with these cuisine");
+        }
+        return this.getRestaurantRating(restaurants.get());
     }
 
     public Restaurant getRestaurantById(Long restaurantId) {

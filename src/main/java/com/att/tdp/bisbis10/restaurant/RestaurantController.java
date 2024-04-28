@@ -23,8 +23,7 @@ public class RestaurantController {
     }
 
     @GetMapping
-    public List<Restaurant> getRestaurants(@RequestParam(required = false) String cuisine,
-                                           @RequestParam(required = false) Long id){
+    public List<Restaurant> getRestaurants(@RequestParam(required = false) String cuisine){
         if (cuisine != null){
             return restaurantService.getRestaurantsByCuisine(cuisine);
         }

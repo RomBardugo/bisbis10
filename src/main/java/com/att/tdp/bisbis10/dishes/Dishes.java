@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
-public class Dishes {
+public class Dishes { //TODO: forign key restaurant
 
     @Id
     @SequenceGenerator(
